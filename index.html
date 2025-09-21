@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capstone Demo — Responsive & Optimized Web App</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #0f766e;
+      --muted: #6b7280;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --card-bg: #fff;
+    }
+    [data-theme="dark"] {
+      --accent: #0f766e;
+      --muted: #a1a1aa;
+      --bg: #1f2937;
+      --text: #f8fafc;
+      --card-bg: #111827;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
+    header { background: var(--card-bg); border-bottom: 1px solid #e6eef2; padding: 1rem; position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; }
+    .brand { display: flex; gap: 0.75rem; align-items: center; }
+    .brand b { color: var(--accent); }
+    nav a { margin-left: 0.75rem; color: var(--muted); text-decoration: none; }
+    .btn { background: var(--accent); color: #fff; padding: .5rem .75rem; border-radius: 8px; border: 0; cursor: pointer; }
+    .muted { color: var(--muted); font-size: .95rem; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .card { background: var(--card-bg); border-radius: 12px; padding: 0.75rem; display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(2,6,23,0.06); transition: transform 0.3s, box-shadow 0.3s, opacity 0.5s; opacity: 0; }
+    .card.show { opacity: 1; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(2,6,23,0.15); }
+    img { max-width: 100%; border-radius: 8px; }
+    .row { display: flex; gap: .75rem; align-items: center; margin-top: auto; }
+    .hero { display: flex; gap: 1rem; align-items: center; padding: 2rem 0; }
+    .hero-left { flex: 1; }
+    .hero-right { flex: 1; }
+    .price { font-weight: 600; }
+    .cart-badge { background: #ef4444; color: #fff; border-radius: 999px; padding: .15rem .45rem; font-size: .8rem; }
+    #miniCart { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #fff; padding: 0.5rem 1rem; border-radius: 50px; cursor: pointer; box-shadow: 0 6px 18px rgba(2,6,23,0.2); display: flex; gap: 0.5rem; align-items: center; z-index: 100; }
+
+    /* Responsive */
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.hero{flex-direction:column}.hero-right{order:-1}}
+    @media (max-width:520px){.grid{grid-template-columns:1fr}.brand b{font-size:1rem}}
+  </style>
+</head>
+<body data-theme="light">
+  <header>
+    <div class="brand">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#0f766e"/></svg>
+      <div>
+        <div style="font-weight:700">Capstone <b>Demo</b></div>
+        <div class="muted" style="font-size:.8rem">Responsive • Performant</div>
+      </div>
+    </div>
+    <div class="row">
+      <nav aria-label="Top links"><a href="#features">Features</a><a href="#products">Products</a><a href="#contact">Contact</a></nav>
+      <button id="cartBtn" class="btn">Cart <span id="cartCount" class="cart-badge">0</span></button>
+      <button id="themeToggle" class="btn" style="background:#6b7280;margin-left:.5rem;">🌙</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="features">
+      <div class="hero-left">
+        <h1 style="margin:0;font-size:clamp(1.6rem,2.6vw,2.4rem)">Build a Full Web Application — Optimized & Responsive</h1>
+        <p class="muted">Dynamic features, lazy images, responsive layout, and cross-browser compatibility.</p>
+        <div style="margin-top:1rem" class="row">
+          <button class="btn" id="viewProducts">View Products</button>
+          <a href="#" class="muted" style="margin-left:1rem">Read docs</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <img src="images/hero.png" alt="Hero illustration" width="800" height="500" loading="lazy" decoding="async" />
+      </div>
+    </section>
+
+    <section style="margin-top:1.5rem">
+      <h2 id="products">Products</h2>
+      <p class="muted">Search, sort, filter by category, and add to cart:</p>
+
+      <!-- Search, Sort & Category Filter -->
+      <div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;">
+        <input type="text" id="searchInput" placeholder="Search products..." style="flex:1;padding:.5rem;border-radius:8px;border:1px solid #ccc;" />
+        <select id="sortSelect" style="padding:.5rem;border-radius:8px;border:1px solid #ccc;">
+          <option value="default">Sort by</option>
+          <option value="low">Price: Low → High</option>
+          <option value="high">Price: High → Low</option>
+        </select>
+        <select id="categorySelect" style="padding:.5rem;border-radius:8px;border:1px solid #ccc;">
+          <option value="all">All Categories</option>
+          <option value="Tee">Tee</option>
+          <option value="Jacket">Jacket</option>
+          <option value="Backpack">Backpack</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Cap">Cap</option>
+          <option value="Socks">Socks</option>
+        </select>
+      </div>
+
+      <div id="productGrid" class="grid" aria-live="polite"></div>
+    </section>
+
+    <section id="contact" style="margin-top:2rem;padding:1rem 0">
+      <h3>Contact</h3>
+      <p class="muted">Works on major browsers and reflows on mobile devices.</p>
+    </section>
+  </main>
+
+  <dialog id="cartDialog" aria-label="Shopping cart">
+    <form method="dialog" style="min-width:320px;padding:1rem">
+      <h3>Cart</h3>
+      <div id="cartItems" style="margin:1rem 0"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong id="cartTotal">Total: ₹0</strong>
+        <div>
+          <button id="checkoutBtn" class="btn">Checkout</button>
+          <button id="closeCart" class="muted" style="margin-left:.5rem;background:none;border:0;cursor:pointer">Close</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="miniCart" style="display:none;">🛒 <span id="miniCount">0</span> items</div>
+
+  <script defer>
+    const PRODUCTS = [
+      {id:1,name:'Flow Tee',price:499,category:'Tee'},
+      {id:2,name:'Miner Jacket',price:1499,category:'Jacket'},
+      {id:3,name:'Eco Backpack',price:899,category:'Backpack'},
+      {id:4,name:'Sneaker Lite',price:2199,category:'Shoes'},
+      {id:5,name:'Cap Classic',price:299,category:'Cap'},
+      {id:6,name:'Socks Duo',price:199,category:'Socks'},
+      {id:7,name:'Sock simple',price:205,category:'Socks'},
+      {id:8,name:'Socks colorfull',price:315,category:'Socks'},
+      {id:9,name:'brand backpack',price:2999,category:'Backpack'}
+    ];
+
+    const state = {cart:{}};
+    function save(){localStorage.setItem('capstone_cart',JSON.stringify(state.cart))}
+    function load(){const s=localStorage.getItem('capstone_cart'); if(s) state.cart=JSON.parse(s)}
+
+    const grid = document.getElementById('productGrid');
+    const cartCount = document.getElementById('cartCount');
+    const cartDialog = document.getElementById('cartDialog');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const miniCart = document.getElementById('miniCart');
+    const miniCount = document.getElementById('miniCount');
+
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const categorySelect = document.getElementById('categorySelect');
+    let searchQuery = '', sortOrder = 'default', selectedCategory = 'all';
+
+    searchInput.addEventListener('input', (e) => { searchQuery = e.target.value.toLowerCase(); renderProducts(); });
+    sortSelect.addEventListener('change', (e) => { sortOrder = e.target.value; renderProducts(); });
+    categorySelect.addEventListener('change', (e) => { selectedCategory = e.target.value; renderProducts(); });
+
+    function renderProducts(){
+      grid.innerHTML = '';
+      let filtered = PRODUCTS.filter(p => 
+        p.name.toLowerCase().includes(searchQuery) && 
+        (selectedCategory==='all' || p.category===selectedCategory)
+      );
+      if(sortOrder==='low') filtered.sort((a,b)=>a.price-b.price);
+      if(sortOrder==='high') filtered.sort((a,b)=>b.price-a.price);
+
+      const frag = document.createDocumentFragment();
+      filtered.forEach(p=>{
+        const card = document.createElement('article'); card.className='card';
+        const img = document.createElement('img');
+        img.src = `images/product${p.id}.png`;
+        img.alt = p.name;
+        img.width = 200; img.height = 200;
+        img.loading = "lazy"; img.decoding = "async";
+
+        const title = document.createElement('div'); title.style.marginTop='0.6rem';
+        title.innerHTML = `<div style="font-weight:600">${p.name}</div><div class="muted">₹${p.price}</div><div class="muted" style="font-size:.8rem">${p.category}</div>`;
+
+        const row = document.createElement('div'); row.className='row';
+        const btn = document.createElement('button'); btn.className='btn'; btn.textContent='Add to cart';
+        btn.addEventListener('click',()=>{ addToCart(p.id) });
+        row.appendChild(btn);
+
+        card.appendChild(img); card.appendChild(title); card.appendChild(row);
+        frag.appendChild(card);
+        setTimeout(()=>card.classList.add('show'),100);
+      });
+      grid.appendChild(frag);
+    }
+
+    function addToCart(id){ 
+      state.cart[id] = (state.cart[id]||0)+1; 
+      save(); renderCartCount(); renderMiniCart();
+    }
+    function removeFromCart(id){ delete state.cart[id]; save(); renderCart(); renderCartCount(); renderMiniCart(); }
+
+    function renderCartCount(){
+      const total = Object.values(state.cart).reduce((s,n)=>s+n,0);
+      cartCount.textContent = total;
+    }
+
+    function renderMiniCart(){
+      const total = Object.values(state.cart).reduce((s,n)=>s+n,0);
+      if(total>0){ miniCart.style.display='flex'; miniCount.textContent=total; } else { miniCart.style.display='none'; }
+    }
+
+    function renderCart(){
+      cartItems.innerHTML = '';
+      let total = 0;
+      if(Object.keys(state.cart).length===0){cartItems.textContent='Cart is empty'; cartTotal.textContent='Total: ₹0'; return;}
+      const ul = document.createElement('ul'); ul.style.padding=0; ul.style.listStyle='none';
+      for(const id of Object.keys(state.cart)){
+        const qty = state.cart[id];
+        const p = PRODUCTS.find(x=>x.id==id);
+        const li = document.createElement('li'); li.style.display='flex'; li.style.justifyContent='space-between'; li.style.padding='.4rem 0';
+        li.innerHTML = `<span>${p.name}</span>
+          <span>
+            <button class="decrease">-</button> ${qty} <button class="increase">+</button>
+            ₹${p.price*qty} <button style="margin-left:.5rem" aria-label="Remove ${p.name}">✕</button>
+          </span>`;
+        li.querySelector('.increase').addEventListener('click',()=>{ state.cart[id]++; save(); renderCart(); renderCartCount(); renderMiniCart(); });
+        li.querySelector('.decrease').addEventListener('click',()=>{ 
+          if(state.cart[id]>1){ state.cart[id]--; } else { delete state.cart[id]; }
+          save(); renderCart(); renderCartCount(); renderMiniCart(); 
+        });
+        li.querySelector('button[aria-label]').addEventListener('click',()=>{ removeFromCart(id); });
+        ul.appendChild(li);
+        total += p.price*qty;
+      }
+      cartItems.appendChild(ul);
+      cartTotal.textContent = `Total: ₹${total}`;
+    }
+
+    document.getElementById('viewProducts').addEventListener('click',()=>location.href='#products');
+    cartBtn.addEventListener('click',()=>{ renderCart(); cartDialog.showModal(); });
+    document.getElementById('closeCart').addEventListener('click',()=>cartDialog.close());
+    document.getElementById('checkoutBtn').addEventListener('click',()=>{ alert('Checkout demo — integrate payment gateway in real app'); cartDialog.close(); state.cart = {}; save(); renderCartCount(); renderMiniCart(); });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click',()=>{
+      const body = document.body;
+      if(body.getAttribute('data-theme')==='light'){ body.setAttribute('data-theme','dark'); themeToggle.textContent='☀️'; }
+      else{ body.setAttribute('data-theme','light'); themeToggle.textContent='🌙'; }
+    });
+
+    load(); renderProducts(); renderCartCount(); renderMiniCart();
+  </script>
+</body>
+</html>
