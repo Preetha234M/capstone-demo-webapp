@@ -28,4 +28,4 @@ This is a fully responsive and performant web application built as part of my in
 
 1. Clone the repository:  
 ```bash
-git clone https://github.com/yourusername/capstone-demo.git
+git clone https://github.com/Preetha234M/capstone-demo-webapp
